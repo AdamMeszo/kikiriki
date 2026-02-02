@@ -1,5 +1,6 @@
 package com.kikiriki.domain;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public sealed class Question permits PictureQuestion, SimpleQuestion {
@@ -20,6 +21,9 @@ public sealed class Question permits PictureQuestion, SimpleQuestion {
         this.id = id;
     }
     public Map<String, Answer> getAnswers() {
+        if (this.answers == null) {
+            this.answers = new HashMap<>();
+        }
         return answers;
     }
     public void setAnswers(Map<String, Answer> answers) {
