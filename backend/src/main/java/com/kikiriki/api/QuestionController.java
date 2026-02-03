@@ -1,13 +1,12 @@
 package com.kikiriki.api;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import com.kikiriki.db.TmpStorage;
 import com.kikiriki.domain.Answer;
 import com.kikiriki.domain.Question;
+import com.kikiriki.domain.QuestionWithAnswers;
 
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.Body;
@@ -47,7 +46,7 @@ public class QuestionController {
     }
 
     @Get(value = "/session/{sessionId}/index/{index}")
-    public Map<String, List<String>> loadQuestion(@NotEmpty String sessionId, @NotEmpty Integer index) {
+    public QuestionWithAnswers loadQuestion(@NotEmpty String sessionId, @NotNull Integer index) {
         var session = tmpStorage.getSession();
         var storedSessionId = session.getId();
 
@@ -57,10 +56,16 @@ public class QuestionController {
 
         var question = session.getQuestions().get(index);
         var questionText = question.getQuestion();
-        var answers = question.getAnswers().values().stream().map(Answer::getText).toList();
-        var response = new HashMap<String, List<String>>();
-        response.put(questionText, answers);
-        return response;
+
+        var answers = new HashMap<String, String>();
+
+        for (Answer answer : session.getAnswers()) {
+            if (question.getAnswers().contains(answer.getId())) {
+                answers.put(answer.getId(), answer.getText());
+            }
+        }
+        
+        return new QuestionWithAnswers(question.getId(), questionText, answers);
     }
 
     @Get(uri = "/results")

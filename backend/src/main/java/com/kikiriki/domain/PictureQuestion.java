@@ -1,5 +1,8 @@
 package com.kikiriki.domain;
 
+import io.micronaut.serde.annotation.Serdeable;
+
+@Serdeable
 public non-sealed class PictureQuestion extends Question {
     private String URL;
 

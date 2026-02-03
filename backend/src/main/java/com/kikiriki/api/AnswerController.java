@@ -43,8 +43,8 @@ public class AnswerController {
                 var question = questionOptional.get();
                 int correct = 0;
                 int guessed = 0;
-                for (Answer answer : question.getAnswers().values()) {
-                    if (answer.isCorrect()) {
+                for (Answer answer : session.getAnswers()) {
+                    if (question.getAnswers().contains(answer.getId()) && answer.isCorrect()) {
                         correct++;
                         if (userAnswers.stream().anyMatch(userAnswer -> userAnswer.equals(answer.getText()))) {
                             guessed++;

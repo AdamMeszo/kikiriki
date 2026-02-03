@@ -12,14 +12,16 @@ import jakarta.validation.constraints.NotNull;
 
 @MappedEntity
 public class Session {
-    @Id 
+
+    @Id
     private String id;
-    @NotNull 
-    private Admin admin; 
+    @NotNull
+    private Admin admin;
     private SortedMap<Integer, Question> questions;
     private List<Player> players;
-    @NotEmpty 
+    @NotEmpty
     private String name;
+    private List<Answer> answers;
 
     public Session(String id, Admin admin, String name) {
         this.id = id;
@@ -30,35 +32,55 @@ public class Session {
     public String getId() {
         return id;
     }
+
     public Admin getAdmin() {
         return admin;
     }
+
     public void setAdmin(Admin admin) {
         this.admin = admin;
     }
+
     public SortedMap<Integer, Question> getQuestions() {
         if (this.questions == null) {
             this.questions = new TreeMap<Integer, Question>();
         }
         return questions;
     }
+
     public void setQuestions(SortedMap<Integer, Question> questions) {
         this.questions = questions;
     }
+
     public List<Player> getPlayers() {
         if (this.players == null) {
             this.players = new ArrayList<>();
         }
         return players;
     }
+
     public void setPlayers(List<Player> players) {
         this.players = players;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
 
 }
